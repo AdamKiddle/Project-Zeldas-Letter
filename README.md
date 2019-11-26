@@ -31,7 +31,7 @@ The file "actorset.txt" contains the info about what actors are loaded at each s
 
 Underneath the version, you can start listing what actors you want to spawn at each step. You can fetch these from the OoT and MM ultimate spreadsheets, under the "Actors by room" sheet. Be careful to vet these carefully, they do not contain room transition actors such as doors and load planes so these will need to be added manually. Some listed actors on the MM spreadsheet may not spawn during day or night so should be removed appropriately. The format for "actorset.txt" is:<br/>
 
-``
+```
 STEP X
 ACTOR_ID, DEALLOCATION_STEP
 ACTOR_ID, DEALLOCATION_STEP # You can add comments with the hash symbol at any point
@@ -46,7 +46,7 @@ ACTOR_ID, DEALLOCATION_STEP
 .
 .
 
-``
+```
 When the program reaches step X, actors listed under step X allocate into the heap. After this, any actors that had previously been allocated with a "deallocation step" X will deallocate. For a practical example, see "Examples" section.<br/>
 
 # actorpool.txt
@@ -61,7 +61,7 @@ The start of the file contains 5 variables:
 *offset - This is the desired offset between the grabbed actor and the SRM actor. Calculated as (actor2 memory position - actor1 memory position)
 
 After this, we write the step that we want to inject actors at. Under each step we list the pool of actors that we want to inject from at that step.
-``
+```
 STEP A
 ACTOR_ID, DEALLOCATION_STEP
 ACTOR_ID, DEALLOCATION_STEP
@@ -76,7 +76,7 @@ ACTOR_ID, DEALLOCATION_STEP
 .
 .
 
-``
+```
 
 The actors listed under each step are the "pools" of actors that the simulator can choose from. It may pick any number of actors from this pool and allocate them in any order during the relevant step. Or it may pick none at all. The actor placement is generated randomly each time the simulaton runs.<br/>
 
