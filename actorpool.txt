@@ -1,0 +1,10 @@
+actor1_id = 0x0015
+actor2_id = 0x000A
+actor1_step = 3
+actor2_step = 7
+offset = 0x10
+
+Step 4
+0x00F0,5,6
+0x0020,5
+0x0010,5
