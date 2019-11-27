@@ -29,7 +29,7 @@ The file "actorset.txt" contains the info about what actors are loaded at each s
 * "MM_GC_U"
 * "MM_GC_E"
 
-Underneath the version, you can start listing what actors you want to spawn at each step. You can fetch these from the OoT and MM ultimate spreadsheets, under the "Actors by room" sheet. Be careful to vet these carefully, they do not contain room transition actors such as doors and load planes so these will need to be added manually. Some listed actors on the MM spreadsheet may not spawn during day or night so should be removed appropriately. The format for "actorset.txt" is:<br/>
+Underneath the version, you can start listing what actors you want to spawn at each step. You can fetch these from the [OoT](https://docs.google.com/spreadsheets/d/1Sl_ay1qPxTrs6xBTpVeqhKFrJjOGYyh3Tg1W0Ch5aHw/edit#gid=640593027) and [MM](https://docs.google.com/spreadsheets/d/1J-4OwmZzOKEv2hZ7wrygOpMm0YcRnephEo3Q2FooF6E/edit#gid=59699069) ultimate spreadsheets, under the "Actors by room" sheet. Be careful to vet these carefully, they do not contain room transition actors such as doors and load planes so these will need to be added manually. Some listed actors on the MM spreadsheet may not spawn during day or night so should be removed appropriately and some actors in both sheets might not be listed such as ones spawned by other actors. The format for "actorset.txt" is:<br/>
 
 ```
 STEP X
