@@ -80,6 +80,12 @@ ACTOR_ID, DEALLOCATION_STEP
 
 The actors listed under each step are the "pools" of actors that the simulator can choose from. It may pick any number of actors from this pool and allocate them in any order during the relevant step. Or it may pick none at all. The actor placement is generated randomly each time the simulaton runs.<br/>
 
+Note that listing bugs once will spawn 3 bug instances. Listing Blue fire once will spawn all 19 flame instances. Listing Blue fire with two arguments like this:
+```
+0x00F0,5,6
+```
+Will spawn 19 blue fire flames, the first 1 and the last 10 will have a deallocation timer of 6, while the other 8 which linger for longer will have deallocation timer 6.<br/>
+
 Note that if you list an actor pool at a particular step, that step in "actorset.txt" will be ignored. "actorpool.txt" has priority. See examples below in the "Examples" section.<br/>
 
 ## Main Program
