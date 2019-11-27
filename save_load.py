@@ -234,7 +234,7 @@ def save_actorset(acs,version):
         the_file.write("version:" + version+"\n\n")
         for i in range(len(acs)):
             the_file.write("Step "+str(i)+"\n")
-            for j in range(len(acs[i])):
+            for j in range(np.size(acs[i])):
                 the_file.write(t.get_hex(acs[i][j,0],4) + "," + str(acs[i][j,1]) + "\n")
             the_file.write('\n')
     return
