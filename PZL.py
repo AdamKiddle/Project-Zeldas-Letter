@@ -81,7 +81,10 @@ def allocate_check(nodes, actor):
     
     
     # Get the relevant row in the actor lookup table:
-    lookup_row = lookup[lookup[:,0] == actor_id][0] 
+    lookup_row = lookup[lookup[:,0] == actor_id]
+    if np.size(lookup_row) == 0:
+        sys.exit("Actor id "+t.get_hex(actor_id,4)+" is not a valid actor. Check 'actorset.txt' and 'actorset.txt' for typos.")
+    lookup_row = lookup_row[0]
            
     # First we check if an overlay with this actor id exists in the heap yet:     
     if not np.any(np.logical_and(nodes[:,1] == 1, nodes[:,3] == actor_id)):
