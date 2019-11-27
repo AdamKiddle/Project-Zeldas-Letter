@@ -318,6 +318,9 @@ def solution_finder(acset):
                                 acs[i] = add_from_pool(acs[i],actor_id,timer2)
                     else:
                         acs[i] = add_from_pool(acs[i],actor_id,timer1)
+                # if the set is still empty, replace it with an empty list []
+                if np.size(acs[i]) == 0:
+                    acs[i] = []
                     
         # Run the main simulation and get the positions of the deisred actors:
         actor1_pos, actor2_pos = main(acs,False,actor1_id, actor2_id,actor1_step, actor2_step)
