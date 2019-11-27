@@ -313,9 +313,164 @@ Step 3
 ```
 Notice what we've done. We've created "step 1" which represents reading the navi text and we've also added a step 2 for dropping 2 bombs.<br/>
 
-The bombs and the majority of the initial room actors now have a deallocation step "3" as we want them to deallocate when we enter the next room at step 3. The web and the navi text for the web have deallocation step "0" because we want them to deallocate as soon as we load the room. Finally, the navi text for the door has a deallocation step "1", because we want them to deallocate when we read the door text at step 1.<br/>
+The bombs and the majority of the initial room actors now have a deallocation step 3 as we want them to deallocate after we enter the next room at step 3. The web and the navi text for the web have deallocation step 0 because we want them to deallocate as soon as we load the room. Finally, the navi text for the door has a deallocation step 1, because we want them to deallocate when we read the door text at step 1.<br/>
 
-If you look carefully, you may notice that Step 1 wasn't actually neccessary, we could've given the navi text for the door a deallocation step of 0 and the heap would've ended up exactly the same. But it's up to you however you want to lay out your steps, and there are often multiple ways of achieving the same thing and some are more readable than others.
+If you look carefully, you may notice that Step 1 wasn't actually neccessary, we could've given the navi text for the door a deallocation step of 0 and the heap would've ended up exactly the same. But it's up to you however you want to lay out your steps, and there are often multiple ways of achieving the same thing - some are more readable than others.
 
 ## Setting up Pools in "actorpool.txt"
+An actor pool is a pool of actors that can be randomly inserted at a paritcular step in a random order. By randomly inserting actors we can shuffle up the heap to hopefully achieve actor placements that line up and allow us to perform SRM. <br/>
+
+"actorpool.txt" is only used when we're in solution-finder mode. The text file contains information about which actors we're searching for and which actors we're willing to spawn in to achieve that.<br/>
+
+Let's take another example in deku tree. We want to displace a clump of grass in the central room using boomerang SRM and one of the heart pickups. First we will set "actorset.txt" like this:
+
+```
+version=oot_ntsc_1.0
+
+# Enter main room
+Step 0 
+0x002E,5 # Door to scrub room
+0x002E,2 # Door to compass room
+0x0023,2 # Loading plane to B1
+0x0095,2 # Skullwalltulas
+0x0095,2
+0x0095,2
+0x0037,2 # Skulltulas
+0x0037,2
+0x0037,2
+0x0125,2 # Grass
+0x0125,2
+0x0125,2
+0x0125,2
+0x0125,2
+0x0055,2 # Deku Babas
+0x0055,2
+0x0055,2
+0x000A,2
+0x000F,2 # Central web
+0x011B,2 # navi "You can open doors"
+0x011B,2 # navi "look at this web"
+0x011B,2 # navi "You can open doors"
+0x011B,2 # navi "You can climb vines"
+0x011B,2 #^
+0x011B,2 #^
+0x011B,2 #^
+0x011B,2 #^
+0x011B,2 #^
+0x0015,2 # heart pickups
+0x0015,2
+
+# Throw the boomerang at the heart
+Step 1
+0x0032,5 # Boomerang
+
+# Enter scrub room (scrub already killed)
+Step 2
+0x02E,4 # Door to slingshot room
+
+# Drop some stuff
+Step 3
+
+# Enter main room again
+Step 4
+0x002E,5 # Door to scrub room
+0x002E,5 # Door to compass room
+0x0023,5 # Loading plane to B1
+0x0095,5 # Skullwalltulas
+0x0095,5
+0x0095,5
+0x0037,5 # Skulltulas
+0x0037,5
+0x0037,5
+0x0125,5 # Grass
+0x0125,5
+0x0125,5
+0x0125,5
+0x0125,5
+0x0055,5 # Deku Babas
+0x0055,5
+0x0055,5
+0x000A,5
+0x000F,5 # Central web
+0x011B,5 # navi "You can open doors"
+0x011B,5 # navi "look at this web"
+0x011B,5 # navi "You can open doors"
+0x011B,5 # navi "You can climb vines"
+0x011B,5 #^
+0x011B,5 #^
+0x011B,5 #^
+0x011B,5 #^
+0x011B,5 #^
+0x0015,5 # heart pickups
+0x0015,5
+```
+So we entered the deku tree without anything cleared, we boomerang a heart and enter the scrub room (with the scrub already killed), then we drop stuff and enter the main room again.<br/>
+
+This "drop some stuff" step (step 3) is where the actorpool comes in. We've left it empty in "actorset.txt" but in "actorpool.txt" we will specify what actors we want to try dropping at this step. We will write in "actorpool.txt":
+
+```
+actor1_id = 0x0015 # heart
+actor2_id = 0x0125 # grass
+actor1_step = 0 # Look for the heart in the heap at step 0
+actor2_step = 4 # Look for the grass in the heap at step 4
+offset = 0 # We want the heart at step 0 and the grass at step 4 to be in the same position in memory (0 offset)
+
+Step 3
+0x0010,4 # Bomb
+0x0010,4 # Bomb
+0x00DA,4 # Bombchu
+0x0021,4 # Fish
+0x0021,4 # Fish
+0x0021,4 # Fish
+0x0020,4 # Set of 3 bugs
+0x00F0,4 # Blue fire
+```
+Now when we run PZL.py, we can press enter to have the simulator inject random actors from the above pool into the heap at step 4. Once it finds a solution, it will write the corresponding "actorset.txt" file in the heap_dump folder. It will keep trying to find solutions until you close the program.<br/>
+
+With this actor pool, it actually finds a lot of solutions very quickly, but harder problems will be harder to solve. One of the output solutions sets step 3 as:
+```
+Step 3
+0x0021,4
+0x0021,4
+0x0021,4
+0x00DA,4
+0x0010,4
+0x0010,4
+0x0020,4
+0x0020,4
+0x0020,4
+0x00F0,4
+0x00F0,4
+0x00F0,4
+0x00F0,4
+0x00F0,4
+0x00F0,4
+0x00F0,4
+0x00F0,4
+0x00F0,4
+0x00F0,4
+0x00F0,4
+0x00F0,4
+0x00F0,4
+0x00F0,4
+0x00F0,4
+0x00F0,4
+0x00F0,4
+0x00F0,4
+0x00F0,4
+```
+Which is 3 fish, 1 chu, 2 bombs, one set of 3 bugs and one set of 19 blue fire particles. If you want to look at the heap output of this solution, you can rename it to "actorset.txt" and put it in the root directory of the program. Then you can run "PZL.py" and type "heap". You'll notice that at step 0 the second heart has a position:
+
+```
+0x1F5D50 0x0015 INSTANCE
+```
+And at step 4 the fourth grass bush has a position:
+```
+0x1F5D50 0x0125 INSTANCE
+```
+These are indeed in the same place, which means that boomeranging the second heart will move the 4th grass bush with this setup.<br/>
+
+If finding a particular solution is proving tricky, try adding extra room transitions in "actorset.txt" and extra pools in "actorpool.txt". Play around with the heap until you find what you want.
+
+This program is still in it's early stages and more changes and features are likely to come in the future. If you need help, message @GlitchesAndStuf on twitter or GlitchesAndStuff in the OoT/MM discord.
 
