@@ -425,7 +425,7 @@ Step 3
 0x0020,4 # Set of 3 bugs
 0x00F0,4 # Blue fire
 ```
-Now when we run PZL.py, we can press enter to have the simulator inject random actors from the above pool into the heap at step 4. Once it finds a solution, it will write the corresponding "actorset.txt" file in the heap_dump folder. It will keep trying to find solutions until you close the program.<br/>
+Now when we run PZL.py, we can press enter to have the simulator inject random actors from the above pool into the heap at step 3. Once it finds a solution, it will write the corresponding "actorset(n).txt" file to the heap_dump folder. It will keep trying to find solutions until you close the program.<br/>
 
 With this actor pool, it actually finds a lot of solutions very quickly, but harder problems will be harder to solve. One of the output solutions sets step 3 as:
 ```
@@ -470,7 +470,7 @@ And at step 4 the fourth grass bush has a position:
 ```
 These are indeed in the same place, which means that boomeranging the second heart will move the 4th grass bush with this setup.<br/>
 
-If finding a particular solution is proving tricky, try adding extra room transitions in "actorset.txt" and extra pools in "actorpool.txt". Play around with the heap until you find what you want.
+If finding a particular solution is proving tricky, try adding extra room transitions in "actorset.txt" and extra pools in "actorpool.txt". Play around with the heap until you find what you want.<br/>
 
 This program is still in it's early stages and more changes and features are likely to come in the future. If you need help, message @GlitchesAndStuf on twitter or GlitchesAndStuff in the OoT/MM discord.
 
