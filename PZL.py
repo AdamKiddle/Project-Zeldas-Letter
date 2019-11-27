@@ -9,7 +9,7 @@ import save_load as io
 EMPTY_ID = -1
 FILLER_ID = 10001
 UNLIMITED = 0xFFFFF
-ARR_SIZE = 10000
+ARR_SIZE = 400
 
 start_address = None 
 node_size = None
@@ -325,7 +325,7 @@ def solution_finder(acset):
         # Find if any of the sets of found actors are the desired offset away:
         POS1, POS2 = np.meshgrid(actor1_pos,actor2_pos)
         print(t.get_hex(actor1_pos),t.get_hex(actor2_pos))
-        print(t.get_hex(actor2_pos - actor1_pos))
+        print(t.get_hex(POS2 - POS1))
         print()
         if np.any(POS2 - POS1 == offset):
             print("SOLUTION FOUND")
@@ -386,6 +386,7 @@ while not to_exit:
     search_mode = input()
     if str.lower(search_mode) == "exit":
         to_exit = True
+        exit()
     elif search_mode == str.lower("heap"):
         acs, version = io.get_actorset()
         lookup_path, node_size, bugs_id, bf_id, start_address = version_setter(version)
